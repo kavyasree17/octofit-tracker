@@ -13,7 +13,10 @@ export function recordsFromResponse(payload) {
 }
 
 export async function fetchRecords(resource) {
-  const response = await fetch(`${apiBaseUrl}/${resource}/`)
+  const endpoint = resource.startsWith('/api/')
+    ? resource.slice('/api'.length)
+    : `/${resource}/`
+  const response = await fetch(`${apiBaseUrl}${endpoint}`)
   if (!response.ok) throw new Error(`Unable to load ${resource}`)
   return recordsFromResponse(await response.json())
 }

@@ -6,7 +6,7 @@ function Activities() {
   const [error, setError] = useState('')
 
   useEffect(() => {
-    fetchRecords('activities').then(setActivities).catch((loadError) => setError(loadError.message))
+    fetchRecords('/api/activities/').then(setActivities).catch((loadError) => setError(loadError.message))
   }, [])
 
   const totalMinutes = activities.reduce((sum, activity) => sum + (activity.durationMinutes || 0), 0)
