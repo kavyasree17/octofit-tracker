@@ -4,10 +4,13 @@ import { fetchRecords } from '../api.js'
 function Activities() {
   const [activities, setActivities] = useState([])
   const [error, setError] = useState('')
+  const activitiesEndpoint = import.meta.env.VITE_CODESPACE_NAME?.trim()
+    ? `https://${import.meta.env.VITE_CODESPACE_NAME}-8000.app.github.dev/api/activities/`
+    : 'http://localhost:8000/api/activities/'
 
   useEffect(() => {
-    fetchRecords('/api/activities/').then(setActivities).catch((loadError) => setError(loadError.message))
-  }, [])
+    fetchRecords(activitiesEndpoint).then(setActivities).catch((loadError) => setError(loadError.message))
+  }, [activitiesEndpoint])
 
   const totalMinutes = activities.reduce((sum, activity) => sum + (activity.durationMinutes || 0), 0)
   const totalPoints = activities.reduce((sum, activity) => sum + (activity.points || 0), 0)
